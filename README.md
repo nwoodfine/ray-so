@@ -6,6 +6,12 @@ A fork of [ray.so](https://ray.so) for generating Second-branded code images.
 
 This is Second's fork of the excellent ray.so project originally built by [Raycast](https://raycast.com). We use it to generate branded code images for our bitcoin payment solutions and other projects. We forked the project to add our own Second theme!
 
+![Light mode](<app/(navigation)/(code)/assets/second-code-images.png>)
+_Light mode_
+
+![Dark mode](<app/(navigation)/(code)/assets/second-code-images-dark.png>)
+_Dark mode_
+
 ## What we're building
 
 [Second](https://second.tech) is building bitcoin payment solutions. We share a lot of technical content with our community, you'll find a lot of these code images [posted on our X](https://x.com/2ndbtc)!
