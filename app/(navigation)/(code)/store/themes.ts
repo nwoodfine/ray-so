@@ -1702,6 +1702,16 @@ const themeAtom = atomWithHash<Theme>(
         }
         return THEMES[key as keyof typeof THEMES];
       } else {
+        // Fallback: try localStorage before defaulting to second
+        // This prevents theme switching when URL hash is temporarily invalid
+        try {
+          const storedTheme = localStorage.getItem("codeTheme");
+          if (storedTheme && storedTheme in THEMES) {
+            return THEMES[storedTheme as keyof typeof THEMES];
+          }
+        } catch (error) {
+          console.log("Could not get theme from localStorage", error);
+        }
         return THEMES.second;
       }
     },
