@@ -525,6 +525,7 @@
  * Dark mode: Neutral grey hierarchy (#080808 → #141414 → #1f1f1f)
  */
 .secondFrame {
+  position: relative;
   background: #ffffff;
   --second-header-text: #b0b0b0; /* Light mode: subtle, doesn't distract from code */
   --line-number: #b0b0b0;
@@ -630,6 +631,156 @@
   .secondHeader {
     background: #101010; /* Header - slightly lighter than code area */
   }
+}
+
+/* Second brand pattern background - adapts to frame size */
+.secondPatternWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background: #ffffff; /* White background for light mode pattern */
+  pointer-events: none;
+}
+
+.secondFrameDarkMode .secondPatternWrapper {
+  background: #0d0d0d; /* Matches SVG background - neutral grey */
+}
+
+.secondPattern {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  min-width: 100%;
+  max-width: none;
+  height: auto;
+  min-height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+}
+
+/* ============================================================================
+ * SECOND WIRED THEME
+ * High contrast "wired" variant - bold borders, no shadows
+ * Light mode: dark borders on white (like a cartoon/wireframe)
+ * Dark mode: light borders on dark
+ * ============================================================================ */
+
+.secondWiredFrame {
+  position: relative;
+  background: #ffffff;
+  --second-header-text: #242424; /* High contrast in light mode */
+  --line-number: #737373;
+}
+
+.secondWiredWindow {
+  position: relative;
+  z-index: 1;
+  /* Bold dark border for light mode - high contrast wired look, thicker for emphasis */
+  border: 2px solid #242424;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.secondWiredHeader {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  /* Thinner separator line between header and code */
+  border-bottom: 2px solid #242424;
+  background: #f6f6f6;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  gap: 12px;
+}
+
+.secondWiredFileName {
+  position: relative;
+  display: grid;
+  height: 40px;
+  align-items: center;
+  color: var(--second-header-text);
+  font-family: var(--font-source-code-pro), monospace;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 40px;
+  vertical-align: top;
+
+  input,
+  & > span,
+  &:after {
+    position: static;
+    z-index: 2;
+    width: auto;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    background: transparent;
+    color: var(--second-header-text);
+    font: inherit;
+    font-kerning: none;
+    grid-area: 1/1;
+    line-height: 40px;
+  }
+
+  &:after {
+    content: attr(data-value);
+    visibility: hidden;
+    white-space: pre;
+  }
+}
+
+.secondWiredLanguage {
+  color: var(--second-header-text);
+  font-family: var(--font-source-code-pro), monospace;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Second Wired: Dark mode - light borders on dark background */
+.secondWiredFrameDarkMode {
+  background: #080808;
+  --second-header-text: #eeeeee; /* High contrast in dark mode */
+  --line-number: #737373;
+
+  .secondWiredWindow {
+    /* Lighter grey border for dark mode - high contrast wired look, thicker for emphasis */
+    border: 2px solid #808080;
+    background: #0c0c0c;
+  }
+
+  .secondWiredHeader {
+    border-bottom: 2px solid #808080; /* Thinner separator line */
+    background: #101010;
+  }
+}
+
+/* Second Wired: Pattern wrapper */
+.secondWiredPatternWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background: #ffffff;
+  pointer-events: none;
+}
+
+.secondWiredFrameDarkMode .secondWiredPatternWrapper {
+  background: #0d0d0d;
+}
+
+/* Second Wired: Boost code font weight to match bold header */
+.secondWiredFrame :global(.Editor_sourceCodePro__Rglmi) {
+  font-weight: 700;
 }
 
 /* 

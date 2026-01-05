@@ -67,10 +67,14 @@ const ThemeControl: React.FC = () => {
       { partnerThemes: [], themes: [] },
     );
 
-    // Sort both arrays: Second first, then alphabetically by name
+    // Sort both arrays: Second themes first (Second, then Second (Old)), then alphabetically by name
     const sortWithSecondFirst = (a: Theme, b: Theme) => {
+      // Second (new default wired style) goes first
       if (a.id === "second") return -1;
       if (b.id === "second") return 1;
+      // Second (Old) goes right after Second
+      if (a.id === "second-old") return -1;
+      if (b.id === "second-old") return 1;
       return a.name.localeCompare(b.name);
     };
 
