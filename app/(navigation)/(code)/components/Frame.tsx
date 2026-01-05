@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { fileNameAtom, showBackgroundAtom, windowWidthAtom } from "../store";
+import { fileNameAtom, showBackgroundAtom, showPatternAtom, windowWidthAtom } from "../store";
 import { FrameContext } from "../store/FrameContextStore";
 import { paddingAtom } from "../store/padding";
 import { THEMES, themeDarkModeAtom, themeAtom, themeBackgroundAtom, darkModeAtom } from "../store/themes";
@@ -20,6 +20,8 @@ import mintlifyPatternDark from "../assets/mintlify-pattern-dark.svg?url";
 import mintlifyPatternLight from "../assets/mintlify-pattern-light.svg?url";
 import clerkPattern from "../assets/clerk/pattern.svg?url";
 import triggerPattern from "../assets/triggerdev/pattern.svg?url";
+import secondPatternLight from "../assets/second-pattern-light.svg?url";
+import secondPatternDark from "../assets/second-pattern-dark.svg?url";
 import { flashShownAtom } from "../store/flash";
 
 const VercelFrame = () => {
@@ -80,11 +82,13 @@ const SupabaseFrame = () => {
  * - Ambient drop shadow (no directional offset)
  * - Light/dark mode with neutral grey palette
  * - Uses Source Code Pro font (weight 500)
+ * - Optional background pattern (toggleable)
  */
 const SecondFrame = () => {
   const darkMode = useAtomValue(themeDarkModeAtom);
   const [padding] = useAtom(paddingAtom);
   const [showBackground] = useAtom(showBackgroundAtom);
+  const [showPattern] = useAtom(showPatternAtom);
   const [fileName, setFileName] = useAtom(fileNameAtom);
   const [selectedLanguage] = useAtom(selectedLanguageAtom);
 
@@ -100,6 +104,16 @@ const SecondFrame = () => {
       style={{ padding }}
     >
       {!showBackground && <div data-ignore-in-export className={styles.transparentPattern}></div>}
+      {/* Second brand pattern - white for light mode, black for dark mode */}
+      {showBackground && showPattern && (
+        <div className={styles.secondPatternWrapper}>
+          <img
+            src={darkMode ? secondPatternDark.src : secondPatternLight.src}
+            alt=""
+            className={styles.secondPattern}
+          />
+        </div>
+      )}
       <div className={styles.secondWindow}>
         <div className={styles.secondHeader}>
           <div className={classNames(styles.fileName, styles.secondFileName)} data-value={fileName}>
@@ -114,6 +128,66 @@ const SecondFrame = () => {
             {fileName.length === 0 ? <span>Untitled-1</span> : null}
           </div>
           <span className={styles.secondLanguage}>{selectedLanguage?.name}</span>
+        </div>
+        <Editor />
+      </div>
+    </div>
+  );
+};
+
+/**
+ * SecondWiredFrame - High contrast "wired" variant of Second theme
+ *
+ * Features:
+ * - Bold borders instead of drop shadows (cartoon/wireframe aesthetic)
+ * - Light mode: dark grey borders on white
+ * - Dark mode: light grey borders on dark
+ * - Same syntax highlighting as Second theme
+ */
+const SecondWiredFrame = () => {
+  const darkMode = useAtomValue(themeDarkModeAtom);
+  const [padding] = useAtom(paddingAtom);
+  const [showBackground] = useAtom(showBackgroundAtom);
+  const [showPattern] = useAtom(showPatternAtom);
+  const [fileName, setFileName] = useAtom(fileNameAtom);
+  const [selectedLanguage] = useAtom(selectedLanguageAtom);
+
+  return (
+    <div
+      className={classNames(
+        styles.frame,
+        styles.secondWiredFrame,
+        darkMode && styles.secondWiredFrameDarkMode,
+        showBackground && styles.withBackground,
+        !showBackground && styles.noBackground,
+      )}
+      style={{ padding }}
+    >
+      {!showBackground && <div data-ignore-in-export className={styles.transparentPattern}></div>}
+      {/* Second brand pattern - white for light mode, black for dark mode */}
+      {showBackground && showPattern && (
+        <div className={styles.secondWiredPatternWrapper}>
+          <img
+            src={darkMode ? secondPatternDark.src : secondPatternLight.src}
+            alt=""
+            className={styles.secondPattern}
+          />
+        </div>
+      )}
+      <div className={styles.secondWiredWindow}>
+        <div className={styles.secondWiredHeader}>
+          <div className={classNames(styles.fileName, styles.secondWiredFileName)} data-value={fileName}>
+            <input
+              type="text"
+              value={fileName}
+              onChange={(event) => setFileName(event.target.value)}
+              spellCheck={false}
+              tabIndex={-1}
+              size={1}
+            />
+            {fileName.length === 0 ? <span>Untitled-1</span> : null}
+          </div>
+          <span className={styles.secondWiredLanguage}>{selectedLanguage?.name}</span>
         </div>
         <Editor />
       </div>
@@ -916,7 +990,9 @@ const Frame = ({ resize = true }: { resize?: boolean }) => {
       case THEMES.supabase.id:
         return <SupabaseFrame />;
       case THEMES.second.id:
-        return <SecondFrame />;
+        return <SecondWiredFrame />; // Primary Second theme (wired style)
+      case THEMES.secondOld.id:
+        return <SecondFrame />; // Legacy Second theme (drop shadow style)
       case THEMES.tailwind.id:
         return <TailwindFrame />;
       case THEMES.clerk.id:

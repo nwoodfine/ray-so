@@ -266,7 +266,10 @@ export const THEMES: { [index: string]: Theme } = {
     },
   },
   /**
-   * Second Theme
+   * Second Theme (Default)
+   *
+   * High contrast "wired" style with bold borders instead of shadows.
+   * This is the primary Second brand theme.
    *
    * Brand colors:
    * - Primary: Red #fa1336, Blue #3d8afb, Yellow #f6d032
@@ -275,11 +278,68 @@ export const THEMES: { [index: string]: Theme } = {
    * - Neutral greys: #080808, #141414, #1f1f1f, #737373, #eeeeee
    *
    * Note: lineNumbers is intentionally omitted to allow user toggle
-   * (explicitly set lineNumbers: true/false to lock the control)
    */
   second: {
     id: "second",
     name: "Second",
+    background: {
+      from: "#ffffff",
+      to: "#ffffff",
+    },
+    icon: SecondLogo,
+    iconUrl: `${BASE_URL}${SecondLogoUrl.src}`,
+    partner: true,
+    font: "source-code-pro",
+    syntax: {
+      light: convertToShikiTheme({
+        foreground: "#242424",
+        constant: "#6f2dbd",
+        string: "#f4931b",
+        comment: "#8c8c8c",
+        keyword: "#fa1336",
+        parameter: "#242424",
+        function: "#3d8afb",
+        stringExpression: "#f4931b",
+        punctuation: "#242424",
+        link: "#3d8afb",
+        number: "#f4931b",
+        property: "#3d8afb",
+        highlight: "rgba(246, 208, 50, 0.12)",
+        highlightHover: "rgba(246, 208, 50, 0.06)",
+        highlightBorder: "#f6d032",
+        diffInserted: "#43b929",
+        diffDeleted: "#fa1336",
+      }),
+      dark: convertToShikiTheme({
+        foreground: "#ffffff",
+        constant: "#9257db",
+        string: "#f6d032",
+        comment: "#737373",
+        keyword: "#fa1336",
+        parameter: "#ffffff",
+        function: "#3d8afb",
+        stringExpression: "#f6d032",
+        punctuation: "#ffffff",
+        link: "#3d8afb",
+        number: "#f6d032",
+        property: "#3d8afb",
+        highlight: "rgba(246, 208, 50, 0.12)",
+        highlightHover: "rgba(246, 208, 50, 0.06)",
+        highlightBorder: "#f6d032",
+        diffInserted: "#43b929",
+        diffDeleted: "#fa1336",
+      }),
+    },
+  },
+  /**
+   * Second (Old) Theme
+   *
+   * Original Second theme with drop shadows instead of borders.
+   * Kept for backwards compatibility.
+   */
+  secondOld: {
+    id: "second-old",
+    name: "Second (Old)",
     background: {
       from: "#ffffff",
       to: "#ffffff",
@@ -1642,6 +1702,16 @@ const themeAtom = atomWithHash<Theme>(
         }
         return THEMES[key as keyof typeof THEMES];
       } else {
+        // Fallback: try localStorage before defaulting to second
+        // This prevents theme switching when URL hash is temporarily invalid
+        try {
+          const storedTheme = localStorage.getItem("codeTheme");
+          if (storedTheme && storedTheme in THEMES) {
+            return THEMES[storedTheme as keyof typeof THEMES];
+          }
+        } catch (error) {
+          console.log("Could not get theme from localStorage", error);
+        }
         return THEMES.second;
       }
     },

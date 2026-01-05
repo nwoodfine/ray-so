@@ -6,6 +6,9 @@ export const windowWidthAtom = atomWithHash<number | null>("width", null);
 
 export const showBackgroundAtom = atomWithHash<boolean>("background", true);
 
+// Second theme only: toggle between solid background and brand pattern
+export const showPatternAtom = atomWithHash<boolean>("pattern", true);
+
 export const showLineNumbersAtom = atomWithHash<boolean | undefined>("lineNumbers", undefined);
 
 export const fileNameAtom = atomWithHash<string>("title", "", {
