@@ -125,7 +125,7 @@ const SecondFrame = () => {
               tabIndex={-1}
               size={1}
             />
-            {fileName.length === 0 ? <span>Untitled-1</span> : null}
+            {fileName.length === 0 ? <span>Second</span> : null}
           </div>
           <span className={styles.secondLanguage}>{selectedLanguage?.name}</span>
         </div>
@@ -185,7 +185,7 @@ const SecondWiredFrame = () => {
               tabIndex={-1}
               size={1}
             />
-            {fileName.length === 0 ? <span>Untitled-1</span> : null}
+            {fileName.length === 0 ? <span>Second</span> : null}
           </div>
           <span className={styles.secondWiredLanguage}>{selectedLanguage?.name}</span>
         </div>

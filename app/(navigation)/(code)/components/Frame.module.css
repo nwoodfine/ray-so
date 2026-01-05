@@ -730,6 +730,15 @@
     line-height: 40px;
   }
 
+  & > span {
+    position: relative;
+    z-index: 1;
+  }
+
+  input {
+    color: inherit;
+  }
+
   &:after {
     content: attr(data-value);
     visibility: hidden;
