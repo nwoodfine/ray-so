@@ -7,8 +7,6 @@ import { CSSProperties } from "react";
 import { IconComponent } from "../../presets/components/Icons";
 import { Base64 } from "js-base64";
 
-export const runtime = "edge";
-
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

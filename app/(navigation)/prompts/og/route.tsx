@@ -7,8 +7,6 @@ import { CSSProperties } from "react";
 import { Prompt } from "../prompts";
 import { IconComponent } from "../../presets/components/Icons";
 
-export const runtime = "edge";
-
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -21,7 +19,7 @@ export async function GET(request: Request) {
 
     const interRegular = await fetch(new URL(`./Inter-Regular.ttf`, import.meta.url)).then((res) => res.arrayBuffer());
     const interSemiBold = await fetch(new URL(`./Inter-SemiBold.ttf`, import.meta.url)).then((res) =>
-      res.arrayBuffer()
+      res.arrayBuffer(),
     );
 
     const bgImageData = await fetch(new URL(`./og-bg.png`, import.meta.url)).then((res) => res.arrayBuffer());
@@ -152,7 +150,7 @@ export async function GET(request: Request) {
             style: "normal",
           },
         ],
-      }
+      },
     );
   } catch (e: any) {
     console.log(`${e.message}`);
